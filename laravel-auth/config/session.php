@@ -4,126 +4,89 @@ use Illuminate\Support\Str;
 
 return [
 
-    /*
-    |--------------------------------------------------------------------------
-    | Default Session Driver
-    |--------------------------------------------------------------------------
-    |
-    | This option controls the default session "driver" that will be used on
-    | requests. By default, we will use the lightweight native driver but
-    | you may specify any of the other wonderful drivers provided here.
-    |
-    | Supported: "file", "cookie", "database", "apc",
-    |            "memcached", "redis", "dynamodb", "array"
-    |
-    */
-
     'driver' => env('SESSION_DRIVER', 'file'),
 
-    /*
+        /*
     |--------------------------------------------------------------------------
-    | Session Lifetime
+    | セッションデータをどの方法で保存するかを決めます。
+    |　デフォルトではfile（ファイル）を使用しますが、他にもデータベースやキャッシュシステム（Redisなど）を選ぶことができます。
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the number of minutes that you wish the session
-    | to be allowed to remain idle before it expires. If you want them
-    | to immediately expire on the browser closing, set that option.
-    |
+    | file: サーバー上の特定のフォルダにセッションデータをファイルとして保存します。
+　　|　database: データベースのテーブルにセッションデータを保存します。
+　　|　redisやmemcached: 高速なキャッシュシステムにセッションデータを保存します。
     */
+
 
     'lifetime' => env('SESSION_LIFETIME', 120),
 
+    /*　セッションの有効期限
+    |--------------------------------------------------------------------------
+    |  セッションが有効である時間を分単位で設定します。
+    |　ここでは120分（2時間）に設定されています。ユーザーが最後に活動してからこの時間が経過すると、
+    |　セッションが自動的に終了します。
+    | 
+    */
+
     'expire_on_close' => false,
 
-    /*
+        /*　ブラウザを閉じたときにセッションを終了するかどうかを決めます。
     |--------------------------------------------------------------------------
-    | Session Encryption
-    |--------------------------------------------------------------------------
-    |
-    | This option allows you to easily specify that all of your session data
-    | should be encrypted before it is stored. All encryption will be run
-    | automatically by Laravel and you can use the Session like normal.
-    |
+    |  false: ブラウザを閉じてもセッションは維持されます。
+    |　true: ブラウザを閉じるとセッションが終了します。
+    | 
     */
 
     'encrypt' => false,
 
-    /*
+        /*　セッションデータを暗号化するかどうかを決めます。
     |--------------------------------------------------------------------------
-    | Session File Location
-    |--------------------------------------------------------------------------
-    |
-    | When using the native session driver, we need a location where session
-    | files may be stored. A default has been set for you but a different
-    | location may be specified. This is only needed for file sessions.
-    |
+    |  true: セッションデータが暗号化されて保存されます。
+    |　false: セッションデータはそのまま保存されます。
+    | 
     */
 
     'files' => storage_path('framework/sessions'),
 
-    /*
+        /*　セッションデータを保存するディレクトリを指定します。
     |--------------------------------------------------------------------------
-    | Session Database Connection
-    |--------------------------------------------------------------------------
-    |
-    | When using the "database" or "redis" session drivers, you may specify a
-    | connection that should be used to manage these sessions. This should
-    | correspond to a connection in your database configuration options.
-    |
+    |  fileドライバーを使用する場合、セッションデータが保存されるディレクトリのパスを指定します。
+    |  デフォルトでは、storage/framework/sessionsフォルダに保存されます。
+    | 
     */
+
 
     'connection' => env('SESSION_CONNECTION'),
 
-    /*
+        /*　データベースドライバーを使用する場合、どのデータベース接続を利用するかを指定します。
     |--------------------------------------------------------------------------
-    | Session Database Table
-    |--------------------------------------------------------------------------
-    |
-    | When using the "database" session driver, you may specify the table we
-    | should use to manage the sessions. Of course, a sensible default is
-    | provided for you; however, you are free to change this as needed.
-    |
+    |  databaseドライバーを使用する場合、どのデータベース接続を利用するかを指定します。
+    |   通常はデフォルトの接続が使用されますが、特定の接続を使用したい場合に設定します。
+    | 
     */
 
     'table' => 'sessions',
 
-    /*
+        /*　データベースドライバーを使用する場合、セッションデータを保存するテーブルの名前を指定します。
     |--------------------------------------------------------------------------
-    | Session Cache Store
-    |--------------------------------------------------------------------------
-    |
-    | While using one of the framework's cache driven session backends you may
-    | list a cache store that should be used for these sessions. This value
-    | must match with one of the application's configured cache "stores".
-    |
-    | Affects: "apc", "dynamodb", "memcached", "redis"
-    |
+    | databaseドライバーを使用する場合、セッションデータを保存するテーブルの名前を指定します。
+    |  デフォルトではsessionsという名前のテーブルが使用されます
+    | 
     */
 
     'store' => env('SESSION_STORE'),
 
-    /*
+        /*　キャッシュシステムドライバーを使用する場合、どのキャッシュストアを利用するかを指定します。
     |--------------------------------------------------------------------------
-    | Session Sweeping Lottery
-    |--------------------------------------------------------------------------
-    |
-    | Some session drivers must manually sweep their storage location to get
-    | rid of old sessions from storage. Here are the chances that it will
-    | happen on a given request. By default, the odds are 2 out of 100.
-    |
+    | キャッシュシステム（RedisやMemcachedなど）を使用する場合、どのキャッシュストアを利用するかを指定します。
+    |  nullの場合はデフォルトのストアが使用されます。
     */
 
     'lottery' => [2, 100],
-
-    /*
+        /*　セッションガーベジコレクションの確率を設定します。
     |--------------------------------------------------------------------------
-    | Session Cookie Name
-    |--------------------------------------------------------------------------
-    |
-    | Here you may change the name of the cookie used to identify a session
-    | instance by ID. The name specified here will get used every time a
-    | new session cookie is created by the framework for every driver.
-    |
+    | セッションガーベジコレクション（不要なセッションデータの削除）を実行する確率を設定します。
+    |  ここでは、100回に2回の確率でガーベジコレクションが実行されます。
     */
 
     'cookie' => env(
@@ -131,84 +94,61 @@ return [
         Str::slug(env('APP_NAME', 'laravel'), '_').'_session'
     ),
 
-    /*
+        /*　セッションIDを保存するクッキーの名前を指定します。
     |--------------------------------------------------------------------------
-    | Session Cookie Path
-    |--------------------------------------------------------------------------
-    |
-    | The session cookie path determines the path for which the cookie will
-    | be regarded as available. Typically, this will be the root path of
-    | your application but you are free to change this when necessary.
-    |
+    | セッションIDを保存するクッキーの名前を指定します。
+    | デフォルトではアプリケーション名に基づいた名前（例: laravel_session）が設定されます。
+    | SESSION_COOKIE環境変数でカスタマイズできます。
     */
 
     'path' => '/',
 
-    /*
-    |--------------------------------------------------------------------------
-    | Session Cookie Domain
-    |--------------------------------------------------------------------------
-    |
-    | Here you may change the domain of the cookie used to identify a session
-    | in your application. This will determine which domains the cookie is
-    | available to in your application. A sensible default has been set.
-    |
+        /*　
+    | クッキーが有効なパスを指定します。'/'に設定すると、ドメイン全体でクッキーが有効になります。
     */
 
     'domain' => env('SESSION_DOMAIN'),
 
-    /*
+        /*　クッキーが有効なドメインを指定します。
     |--------------------------------------------------------------------------
-    | HTTPS Only Cookies
-    |--------------------------------------------------------------------------
-    |
-    | By setting this option to true, session cookies will only be sent back
-    | to the server if the browser has a HTTPS connection. This will keep
-    | the cookie from being sent to you when it can't be done securely.
-    |
+    | クッキーが有効なドメインを指定します。例えば、example.comに設定すると、
+    | example.comとそのサブドメインでクッキーが利用可能になります。
+    | デフォルトではnullで、現在のドメインが使用されます。
     */
 
     'secure' => env('SESSION_SECURE_COOKIE'),
 
-    /*
+        /*　HTTPS接続時のみクッキーを送信するかどうかを指定します。
     |--------------------------------------------------------------------------
-    | HTTP Access Only
-    |--------------------------------------------------------------------------
-    |
-    | Setting this value to true will prevent JavaScript from accessing the
-    | value of the cookie and the cookie will only be accessible through
-    | the HTTP protocol. You are free to modify this option if needed.
-    |
+    | trueに設定すると、HTTPS接続時のみクッキーが送信されます。
+    |  これにより、セキュリティが向上します。開発環境ではfalse、本番環境ではtrueに設定することが一般的です
     */
 
     'http_only' => true,
 
-    /*
+        /*　HTTPS接続時のみクッキーを送信するかどうかを指定します。
     |--------------------------------------------------------------------------
-    | Same-Site Cookies
-    |--------------------------------------------------------------------------
-    |
-    | This option determines how your cookies behave when cross-site requests
-    | take place, and can be used to mitigate CSRF attacks. By default, we
-    | will set this value to "lax" since this is a secure default value.
-    |
-    | Supported: "lax", "strict", "none", null
-    |
+    | trueに設定すると、クッキーはJavaScriptからアクセスできなくなります。
+    | これにより、クロスサイトスクリプティング（XSS）攻撃からセッションを保護します。
     */
+
 
     'same_site' => 'lax',
 
-    /*
+        /*　クッキーのSameSite属性を設定します。
+            'lax'は、クロスサイトリクエスト時のクッキー送信を制限しつつ、ユーザーがリンクをクリックしてアクセスする場合は許可します。
+            セキュリティを強化するために使用されます。
     |--------------------------------------------------------------------------
-    | Partitioned Cookies
-    |--------------------------------------------------------------------------
-    |
-    | Setting this value to true will tie the cookie to the top-level site for
-    | a cross-site context. Partitioned cookies are accepted by the browser
-    | when flagged "secure" and the Same-Site attribute is set to "none".
-    |
+    | 'lax': 一般的なセキュリティ設定。
+    | 'strict': さらに厳格にクロスサイトリクエストを制限。
+    | 'none': クロスサイトリクエストでもクッキーを送信。
     */
 
-    'partitioned' => false,
 
+    'partitioned' => false,
+        /*　セッションのパーティションを有効にするかどうかを決めます。
+    |--------------------------------------------------------------------------
+    | セッションのパーティションを有効にするかどうかを決めます。
+    | これは、特定の条件下でセッションデータを分割して保存するための設定です。通常はfalseで問題ありません。
+    */
 ];

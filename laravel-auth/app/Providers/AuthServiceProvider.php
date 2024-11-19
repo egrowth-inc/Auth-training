@@ -5,14 +5,16 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
-use App\Models\Post; // インポートを追加
+use App\Models\Post; 
+use App\Policies\UserPolicy; 
+
 
 class AuthServiceProvider extends ServiceProvider
 {
-    protected $policies = [
-        \App\Models\Post::class => \App\Policies\PostPolicy::class,
-    ];
 
+    protected $policies = [
+        User::class => UserPolicy::class,
+    ];
     public function boot()
     {
         $this->registerPolicies();
