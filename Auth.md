@@ -147,6 +147,10 @@ php artisan migrate:reset
 
 ```
 
+## データベース「からむ、レコード、カラム」イメージ
+
+![alt text](image-14.png)
+
 ## 認証の全体的な流れ
 
 web.phpとauth.phpの役割
@@ -184,6 +188,8 @@ web.phpとauth.phpの役割
 
 - [登録画面](#登録画面)
 - [ログイン画面](#ログイン画面)
+
+
 
 ## http://localhost:8000 にアクセスされここはwelcome.blade.phpを表示しています
 

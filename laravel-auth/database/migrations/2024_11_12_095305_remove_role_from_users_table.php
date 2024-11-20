@@ -17,7 +17,7 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('users', callback: function (Blueprint $table) {
             $table->string('role')->nullable(); // 必要に応じてデータ型を調整
         });
     }
