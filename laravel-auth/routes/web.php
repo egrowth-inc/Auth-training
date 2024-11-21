@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\UserController;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Controllers\YourController;
+
 
 
 // 認証関連のルートをインクルード
@@ -49,3 +51,8 @@ Route::get('/login/google/callback', function () {
     // ユーザー情報を保存してログイン処理を行う
     dd($user); // 取得したユーザー情報を表示
 });
+
+// カスタムCookieの設定と取得
+Route::get('/set-cookie', [YourController::class, 'setCustomCookie']);
+Route::get('/get-cookie', [YourController::class, 'getCustomCookie']);
+Route::get('/session-data', [YourController::class, 'showSessionData']);
