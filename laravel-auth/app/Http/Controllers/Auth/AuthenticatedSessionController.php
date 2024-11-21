@@ -29,17 +29,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        session()->flash('message', 'データが正常に保存されました！');
+
         $user = Auth::user();
 
-        // デバッグ情報のログ出力
-        \Log::info('User ID: ' . $user->id);
-        \Log::info('User Roles: ' . implode(', ', $user->getRoleNames()->toArray()));
-
         if ($user->hasRole('admin')) {
-            \Log::info('User has admin role.');
             return redirect()->intended('/admin');
         } else {
-            \Log::info('User does not have admin role.');
             return redirect()->intended(RouteServiceProvider::HOME);
         }
     }
