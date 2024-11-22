@@ -6,6 +6,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\Admin\UserController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\YourController;
+use App\Http\Controllers\Auth\OAuthController;
 
 
 
@@ -56,3 +57,9 @@ Route::get('/login/google/callback', function () {
 Route::get('/set-cookie', [YourController::class, 'setCustomCookie']);
 Route::get('/get-cookie', [YourController::class, 'getCustomCookie']);
 Route::get('/session-data', [YourController::class, 'showSessionData']);
+
+// OAuthプロバイダーへのリダイレクト
+Route::get('auth/redirect/{provider}', [OAuthController::class, 'redirect'])->name('oauth.redirect');
+
+// OAuthプロバイダーからのコールバック
+Route::get('auth/callback/{provider}', [OAuthController::class, 'callback'])->name('oauth.callback');

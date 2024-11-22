@@ -31,6 +31,8 @@ class AuthenticatedSessionController extends Controller
 
         session()->flash('message', 'データが正常に保存されました！');
 
+        dd(session()->all());
+
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {

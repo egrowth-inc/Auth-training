@@ -10,33 +10,36 @@ class YourController extends Controller
 {
     public function setSecureCookie()
     {
-        // 1. SecureかつHttpOnlyなCookieを作成
+        // SecureなCookieを設定（ローカルではSecure=false）
         $cookie = Cookie::make(
             'secure_cookie',           // Cookie名
             'SecureHelloWorld',        // 値
             60,                        // 有効期限（分）
             null,                      // パス
             null,                      // ドメイン
-            true,                      // Secure属性（HTTPSのみ）
-            true                       // HttpOnly属性（JSからアクセス不可）
+            false,                     // Secure属性（ローカルならfalse）
+            true                       // HttpOnly属性
         );
 
-        // 2. レスポンスにCookieを追加
         return response('Secure Cookie has been set!')->cookie($cookie);
     }
 
     public function getCustomCookie(Request $request)
     {
-        $value = $request->cookie('custom_cookie');
-        return response("Cookie Value: $value");
+        // Cookie名を修正して一致させる
+        $value = $request->cookie('secure_cookie');
+
+        // フラッシュデータを設定
+        session()->flash('message', 'これはフラッシュメッセージです！');
+
+        // セッションの中身を確認
+        return response()->json(session()->all());
     }
 
     public function showSessionData()
     {
-        // セッションデータを取得
+        // セッションデータを確認
         $sessionData = Session::all();
-
-        // セッションデータをレスポンスで返す
         return response()->json($sessionData);
     }
 }
