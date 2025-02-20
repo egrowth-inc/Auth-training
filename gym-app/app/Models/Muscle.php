@@ -9,5 +9,5 @@ class Muscle extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description'];
+    protected $fillable = ['key', 'name', 'image']; // 許可するカラム
 }

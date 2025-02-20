@@ -11,6 +11,7 @@
 <body>
 
     <div class="container">
+    <h1>筋トレしよう！！</h1>
         <!-- 人体画像 -->
         <div class="image-container" style="position: relative;">
             <img src="{{ asset('images/human-body.png') }}" alt="人体図" class="human-body">
@@ -21,8 +22,6 @@
             <div class="muscle legs" id="legs"></div>
         </div>
 
-        <!-- 筋トレ情報表示用（人体の右側） -->
-        <div class="info-box" id="info-box">部位をクリックしてトレーニング情報を表示</div>
     </div>
 
     <script src="{{ asset('js/script.js') }}"></script>

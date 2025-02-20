@@ -23,3 +23,19 @@ document.querySelectorAll('.muscle').forEach(area => {
         infoBox.style.display = 'flex';
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const muscles = document.querySelectorAll(".muscle");
+
+    muscles.forEach(muscle => {
+        muscle.addEventListener("click", function () {
+            const muscleId = this.id;
+
+            if (muscleId) {
+                window.location.href = `/training/${muscleId}`;
+            } else {
+                console.error("エラー: muscleId が取得できませんでした");
+            }
+        });
+    });
+});
